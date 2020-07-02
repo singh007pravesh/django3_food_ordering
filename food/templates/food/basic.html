@@ -1,0 +1,195 @@
+{% load static %}
+{% if message == "reload" %}
+<script>
+  window.location = window.location.href;
+</script>
+{% endif %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+
+    <title>Food System</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.transitions.min.css"/>
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/carousel/">
+
+    <link rel="icon" href="/docs/4.4/assets/img/favicons/favicon.ico">
+    <meta name="theme-color" content="#563d7c">
+    <title>Online Food Ordering System</title>
+    <style>
+      .navbar-nav .nav-link{
+        color: white!important;
+      }
+    </style>
+    {% block css %}
+    {% endblock %}
+  </head>
+  
+  <body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <a class="navbar-brand" href="/food/">Food Zone</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/food/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/food/aboutus">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/food/contact">Contact Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/food/categories">Categories</a>
+      </li>
+      {% if user.is_authenticated %}
+     
+      {% endif %}
+      </ul>
+     <div class="ml-auto form-inline">
+    <form method="GET" action="/food/search/" class=" my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><font color="white">Search</font></button>
+    </form>
+        
+        
+      <a href="/food/cart/" class="btn btn-secondary mx-2">Cart ( {{ len_cart }} )</a>
+    </button>
+    {% if user.is_authenticated %}
+    <ul class="navbar-nav ">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Welcome {{request.user}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/food/logout/">Logout</a>
+          
+      </li>
+      </ul>
+    
+    {% else %}
+    <button type="button" class="btn btn-primary mx-1" data-toggle="modal" data-target="#loginModal">
+      Login
+    </button>
+    <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+  Sign Up
+</button>
+{% endif %}
+
+</div>
+  </div>
+</nav>
+<!-- Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupLabel"><font color="black">Sign Up</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/food/signup/" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required placeholder="enter your username">
+          </div>
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" class="form-control" id="fname" name="fname" required placeholder="enter your first name">
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</Label>
+            <input type="text" class="form-control" id="lname" name="lname" required placeholder="enter your last name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" name="email" required placeholder="name@example.com">
+          </div>
+          <div class="form-group">
+            <label for="pass1">Password</label>
+            <input type="password" class="form-control" id="pass1" name="pass1" required placeholder="enter ypur password">
+          </div>
+          <div class="form-group">
+            <label for="pass2">Confirm Password</label>
+            <input type="password" class="form-control" id="pass2" name="pass2" required placeholder="enter ypur password again">
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Save </button>
+          <input type="reset" class="btn btn-primary">
+        </form>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginLabel"><font color="black">Login</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/food/login/" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="loginusername" name="loginusername" required placeholder="enter your username">
+          </div>
+          
+          <div class="form-group">
+            <label for="pass">Enter a Password</label>
+            <input type="password" class="form-control" id="loginpass" name="loginpass" required placeholder="enter ypur password">
+          </div>
+          
+          
+          <button type="submit" class="btn btn-primary">Login </button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+</div>
+  {% for message in messages %}
+  <div class="alert alert-warning mb-0 alert-dismissible fade show" role="alert">
+    <strong>Message : </strong>{{ message }}
+    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+{% block body %}
+
+{% endblock %}
+
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js"></script>
+  {% block js %}
+  {% endblock %}
+  </body>
+</html>

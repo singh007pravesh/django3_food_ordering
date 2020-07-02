@@ -1,0 +1,128 @@
+{% extends 'food/basic.html' %}
+
+{% block css %}
+
+<style>
+  
+      .col-md-3{
+      display: inline-block;
+      margin-left: -5px;
+      }
+      .col-md-3 img{
+      width:170px;
+      height:130px;
+      }
+      body .carousel-indicator li{
+      background-color:blue;
+      }
+      body .carousel-indicators{
+       
+        
+        bottom:0;
+      }
+      .carousel-indicators .active{
+      background-color:blue;
+      }
+      body .carousel-control-prev-icon,
+      body .carousel-control-next-icon{
+      background-color:blue;
+      }
+      .carousel-control-prev,
+      .carousel-control-next{
+        margin-top: 525px;
+        margin-bottom: 200px;
+        padding-top:150px;
+
+      }
+      body .no-padding{
+      padding-left:0;
+      padding-right: 0;
+     
+      }
+</style>
+{% endblock %}
+<body>
+    {% load static %}
+    {% block body %}
+   
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="{% static 'food/chicckenkebab.png' %}" class="d-block w-100" alt="..." style="height: 400px;">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'food/chicken65.png' %}" class="d-block w-100" alt="..."style="height: 400px;">
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'food/chickenbiryani.png' %}" class="d-block w-100" alt="..."style="height: 400px;">
+      </div>
+    </div>
+   
+  </div>
+    <br>
+    <h3 style="margin-left: 70px;"><b><font color="green">Restaurants</font></b></h3>
+    <br>
+    <div class="container ">
+      <div id="demo" class="carousel slide " data-ride="carousel">
+          <ul class="carousel-indicators ">
+            <li data-target="#demo" data-slide-to="0" class="active"></li>
+            {% for i in range %}
+            <li data-target="#demo" data-slide-to="{{i}}" ></li>
+            {% endfor %}
+          </ul>
+      
+          <!--Slideshow starts here -->
+          <div class="container carousel-inner no-padding">
+            
+            <div class="carousel-item active">
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='/media/{{restaurant.0.res_image}}' class="card-img-top" alt="...">
+                  <div class="card-body">
+                      <h5 class="card-title">{{restaurant.0.res_name}}</h5>
+                      <p class="card-text">{{restaurant.0.res_desc}}</p>
+                      <a href="/food/resdishview/{{restaurant.0.res_name}}" class="btn btn-primary" >View Dishes</a>
+                  </div>
+                </div>
+             </div>
+              {% for i in restaurant|slice:"1:" %}
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 18rem;">
+                  <img src='/media/{{i.res_image}}' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">{{i.res_name}}</h5>
+                    <p class="card-text">{{i.res_desc}}</p>
+                    <a href="/food/resdishview/{{i.res_name}}" class="btn btn-primary cart" >View Dishes</a>
+                  </div>
+                </div>
+              </div>
+              {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+              </div><div class="carousel-item">
+              {% endif %}
+              {%  endfor %}
+             </div>
+      
+      </div>
+      </div>
+      </div>
+      <br>
+          <!-- left and right controls for the slide -->
+          <a class="carousel-control-prev" href="#demo" data-slide="prev">
+              <span class="carousel-control-prev-icon"  style="margin-right: 70px;"></span>
+          </a>
+          <a class="carousel-control-next" href="#demo" data-slide="next">
+              <span class="carousel-control-next-icon" style="margin-left: 70px;"></span>
+          </a>
+    {% endblock %}
+    {% block js %}
+    
+          
+  
+    {% endblock %}
+</body>

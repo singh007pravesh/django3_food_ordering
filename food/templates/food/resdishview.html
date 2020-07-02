@@ -1,0 +1,30 @@
+{% extends 'food/basic.html' %}
+
+<br>
+
+{% block body %}
+<div class="container" style="padding-top: 100px;">
+  <div class="row resview">
+    {% for i in dishes%}
+
+      <div class="col-md-4 col-xs-4 col-sm-4">
+        <div class="card">
+            <img src="/media/{{i.dish_image}}" style="width: 100%;height:200px;">
+            <div class="card-body">
+              <h5 class="card-title">{{i.dish_name}}</h5>
+              <h3 class="card-text" ><font size="5px"> Rs - {{i.dish_price}}</font></h3>
+              <p class="card-text">{{i.dish_desc}}</p>
+              <a href="/food/dishes/{{i.id}}" class="btn btn-primary" style="margin-top: 5px;">View Dish</a>
+            </div>
+          </div>
+      </div>
+      
+      
+      {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
+
+{% block jss %}
+{% endblock %}

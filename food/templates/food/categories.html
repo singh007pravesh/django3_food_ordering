@@ -1,0 +1,113 @@
+{% extends 'food/basic.html' %}
+{% block css %}
+<style>
+      .col-md-3{
+      display: inline-block;
+      margin-left: -5px;
+      }
+      .col-md-3 img{
+      width:140px;
+      height:110px;
+      }
+      body .carousel-indicator li{
+      background-color:blue;
+      }
+      body .carousel-indicators{
+       
+        
+        bottom:0;
+      }
+      .carousel-indicators .active{
+      background-color:blue;
+      }
+      body .carousel-control-prev-icon,
+      body .carousel-control-next-icon{
+      background-color:blue;
+      }
+      .carousel-control-prev,
+      .carousel-control-next{
+          top: auto;
+          bottom: auto;
+          
+        
+     
+
+      }
+      body .no-padding{
+      padding-left:0;
+      padding-right: 0;
+     
+      }
+</style>
+{% endblock %}
+<body>
+    {% block body %}
+    <br>
+    <div class="container ">
+ <!--Slideshow starts here -->
+        {% for dish, range, nslides in alldishes %}
+        <h3 style="margin-left: 70px;"><b><font color="green">{{dish.0.category}}</font></b></h3>
+        <br>
+      <div id="demo{{forloop.counter}}" class="carousel slide " data-ride="carousel">
+          <ul class="carousel-indicators ">
+            <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+            {% for i in range %}
+            <li data-target="#demo{{forloop.parentloop.counter}}" data-slide-to="{{i}}" ></li>
+            {% endfor %}
+          </ul>
+      
+         
+          <div class="container carousel-inner no-padding">
+            
+            <div class="carousel-item active">
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 15rem;">
+                  <img src='/media/{{dish.0.dish_image}}' class="card-img-top" alt="..." style="width: 200px; height: 175px;">
+                  <div class="card-body">
+                      <h5 class="card-title" id="namepr{{dish.0.id}}">{{dish.0.dish_name}}</h5>
+                      <p class="card-text">{{dish.0.dish_desc}}</p>
+                      
+                    
+                    
+                      <a href="/food/dishes/{{dish.0.id}}" class="btn btn-primary" style="margin-top: 5px;" >View Dish</a>
+                  </div>
+                </div>
+             </div>
+              {% for i in dish|slice:"1:" %}
+              <div class="col-xs-3 col-sm-3 col-md-3">
+                <div class="card" style="width: 15rem;">
+                  <img src='/media/{{i.dish_image}}' class="card-img-top" alt="..."  style="width: 200px; height: 175px;" >
+                  <div class="card-body">
+                    <h5 class="card-title" id="namepr{{i.id}}">{{i.dish_name}}</h5>
+                    <p class="card-text">{{i.dish_desc}}</p>
+                    
+                     
+                  
+                    <a href="/food/dishes/{{i.id}}" class="btn btn-primary" style="margin-top: 5px;">View Dish</a>
+                  </div>
+                </div>
+              </div>
+              {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last%}
+              </div><div class="carousel-item">
+              {% endif %}
+              {%  endfor %}
+             </div>
+      
+      </div>
+      </div>
+      
+      <br>
+          <!-- left and right controls for the slide -->
+          <a class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+              <span class="carousel-control-prev-icon"  style="margin-right: 70px;"></span>
+          </a>
+          <a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+              <span class="carousel-control-next-icon" style="margin-left: 70px;"></span>
+          </a>
+          {%  endfor %}
+        </div>
+    {% endblock %}
+    {% block js %}
+        
+    {% endblock %}
+</body>

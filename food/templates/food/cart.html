@@ -1,0 +1,130 @@
+{% extends 'food/basic.html' %}
+{% block body %}
+<div class="container">
+  <div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        
+        <th>#</th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Sub Amount</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+        
+
+        {% for p in products %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td class="dish_id" d_id='{{p.id}}'>{{p.dish_name}}</td>
+          <td><img src="/media/{{p.dish_image}}" style="width: 100px" alt=""></td>
+          <td class="price">{{p.dish_price}}</td>
+          <td class="qt_in">
+            <input type="number" min="1" max="5" name="qty" class="qty" style="width: 80px;" value="1">
+
+          </td>
+          <td class="sub_amt">{{p.dish_price}}</td>
+          <td>
+            <form method="POST">
+              {% csrf_token %}
+              <input type="hidden" name="remove_pro_id" value="{{p.id}}">
+              <input type="submit" name="remove" class="btn btn-danger" value="Remove">
+            </form>
+        </td>
+        </tr>
+        {% endfor %}
+    
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td>Total</td>
+        <td></td>
+        <td></td>
+        <td>Amount</td>
+        <td class="final_amt"></td>
+        <td></td>
+      </tr>
+    </tfoot>
+    </table>
+    <div class="row">
+        <button class="btn btn-primary" id="checkout">Check Out</button>
+        <div id="result"></div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+
+<script>
+  $(document).ready(function() {
+    $('.qty,div').on('mousemove change ',function() {
+      $price=$(this).parent().parent().children('.price').html();
+      $price=parseFloat($price);
+      $qty=parseInt($(this).val());
+      $sub=$price*$qty;
+      $(this).parent().parent().children('.sub_amt').html($sub);
+
+      $final=0;
+      $('.sub_amt').each(function(index, el) {
+        $val=parseFloat($(this).html());
+        $final=$final+$val;
+        $('.final_amt').html($final);
+      });
+    });
+
+    $("body").delegate("table,div,input", "mousemove",function(){
+        $prods=[];
+        $('.dish_id').each(function(index, el) {
+          $aaa={};
+          $pid=parseInt($(el).parent().children('.dish_id').attr('d_id'));
+          $pricee=parseFloat($(el).parent().children('.price').html());
+          $sub_amtt=parseFloat($(el).parent().children('.sub_amt').html());
+          $qtyy=parseInt($(el).parent().children('.qt_in').find('.qty').val());
+          $aaa={
+           'pro_id':$pid,
+           'price':$pricee,
+           'qty':$qtyy,
+           'sub':$sub_amtt
+          }
+
+          $prods.push($aaa);
+
+          
+        });
+      });
+      $("#checkout").click(function() {
+        // console.log(JSON.stringify($prods));
+        $.ajax({
+          type:'POST',
+          url: "/food/cart_check_out/", 
+          // contentType: 'application/json',
+          // dataType: 'json',
+          data:{
+                "total" : parseFloat($('.final_amt').html()),
+                "prods":JSON.stringify($prods),
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+          },
+          success: function(result){
+            $("#result").html(result);
+        }});
+
+      });
+
+
+
+
+  });
+
+</script>
+
+{% endblock %}

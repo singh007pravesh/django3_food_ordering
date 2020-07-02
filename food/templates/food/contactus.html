@@ -1,0 +1,84 @@
+{% extends 'food/basic.html' %}
+{% load static %}
+{% block css %}
+<style>
+    .pp{
+		align-items: left;
+		margin-right: 15px;
+		border: 1px solid #ddd;
+		font-family: sans-serif;
+	}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1 style="text-align: center;"><b>Contact Us</b></h1>
+    <div class="form-group">
+        {% if messages %}
+        <ul class="message" style="list-style-type: none;">
+            {% for message in messages %}
+            <li>
+                <div class="alert alert-success"> {{ message }} </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <h2 style="margin-top: 20px">Address</h2>
+            <p class="pp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            
+            <h2 >Contact Info</h2>
+            <p class="pp">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+            cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+            proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+        <div class="col-md-6" style="margin-top: 40px">
+            <form action="/food/contact/" method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="Name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" name="email" placeholder="Email" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="number" name="phone" placeholder="Phone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea placeholder="Type Your Message" name="message" class="form-control"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+        </div>
+    </div>
+
+</div>
+    <div class="row">
+        <div class="col-md-12">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3558.362314199409!2d80.94293471459903!3d26.891994183136546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399957d2fc043907%3A0x9da04b04007fc8c3!2sPIE%20INFOCOMM%20PVT.%20LTD.!5e0!3m2!1sen!2sin!4v1581963387232!5m2!1sen!2sin" width="1340" height="200" frameborder="0" style="border:0;margin-left: 10px" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    
+
+
+
+  
+{% endblock %}
